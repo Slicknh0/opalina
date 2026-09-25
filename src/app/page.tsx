@@ -10,6 +10,9 @@ import { Principle } from "@/components/sections/principle";
 import { Reviews } from "@/components/sections/reviews";
 import { ShadeGuide } from "@/components/sections/shade-guide";
 import { Treatments } from "@/components/sections/treatments";
+import { clinic } from "@/content/clinic";
+import { buildDentistJsonLd, serializeJsonLd } from "@/lib/jsonld";
+import { SITE_URL } from "@/lib/site";
 
 export default function Home() {
   return (
@@ -34,6 +37,13 @@ export default function Home() {
       </main>
       <Footer />
       <MobileActionBar />
+      <script
+        type="application/ld+json"
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: serialized with "<" escaped
+        dangerouslySetInnerHTML={{
+          __html: serializeJsonLd(buildDentistJsonLd(clinic, SITE_URL)),
+        }}
+      />
     </>
   );
 }
