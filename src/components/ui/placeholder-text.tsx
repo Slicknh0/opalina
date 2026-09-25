@@ -16,7 +16,7 @@ export function PlaceholderText({ value, className }: PlaceholderTextProps) {
     <span
       data-placeholder=""
       className={cn(
-        "inline-block rounded-xs border border-dashed border-accent/60 px-1.5 py-px font-mono text-[0.8em] leading-snug text-accent",
+        "rounded-xs border border-dashed border-accent/50 px-1.5 text-accent [box-decoration-break:clone]",
         className,
       )}
     >
