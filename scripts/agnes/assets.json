@@ -11,34 +11,40 @@
     {
       "id": "tooth-k2",
       "kind": "image-edit",
-      "inputs": ["tooth-k1"],
-      "prompt": "the exact same molar tooth rotated 45 degrees clockwise around its vertical axis, same material, same lighting, same size and position, same background",
+      "inputs": [
+        "tooth-k1"
+      ],
+      "prompt": "the exact same molar tooth with the same three roots, rotated 45 degrees clockwise around its vertical axis, same material, same lighting, same size and position, floating with absolutely no shadow on any surface, same plain background",
       "size": "1024x1024"
     },
     {
       "id": "tooth-cutaway",
       "kind": "image-edit",
-      "inputs": ["tooth-k1"],
+      "inputs": [
+        "tooth-k1"
+      ],
       "prompt": "the exact same molar tooth cut cleanly in half vertically to show its inner layers: a thin pearlescent enamel shell, warm ivory dentine beneath it, and a soft rose pulp chamber in the core running into the roots, same pose, same lighting, same background",
       "size": "1024x1024"
     },
     {
       "id": "tooth-implant",
       "kind": "image-edit",
-      "inputs": ["tooth-k1"],
+      "inputs": [
+        "tooth-k1"
+      ],
       "prompt": "in the same pose and position, a dental implant replacing the tooth: a pearlescent porcelain crown on top, a small ceramic abutment and a satin titanium screw implant below, slightly separated in an elegant exploded view, same lighting, same background",
       "size": "1024x1024"
     },
     {
       "id": "treatment-lentes",
       "kind": "image",
-      "prompt": "a frosted glass front incisor tooth with an ultra thin pearlescent porcelain veneer shell floating just in front of it, three-quarter view",
+      "prompt": "a dental porcelain veneer: a paper-thin, curved, translucent porcelain shell shaped like the front surface of an upper central incisor, floating beside a frosted glass upper central incisor tooth with a single long root; the incisor has a flat chisel-shaped biting edge; side three-quarter view showing how thin the shell is",
       "size": "1024x1024"
     },
     {
       "id": "treatment-facetas",
       "kind": "image",
-      "prompt": "a frosted glass front incisor tooth with a thicker glossy porcelain facet fitting onto its front surface, three-quarter view",
+      "prompt": "a frosted glass upper central incisor tooth with a single long root and a flat chisel-shaped biting edge, a glossy white porcelain facet covering its whole front surface, the facet slightly lifted at one edge to reveal its thickness, side three-quarter view",
       "size": "1024x1024"
     },
     {
@@ -56,17 +62,20 @@
     {
       "id": "treatment-gengiva",
       "kind": "image",
-      "prompt": "two frosted glass front teeth set in a soft matte pale pink abstract gum contour with a smooth, even curve, sculptural and minimal",
+      "prompt": "two front incisor teeth made of frosted glass rising from a smooth, matte, pale pink sculpted gum arch; the gum line forms two gentle, even scallops around the teeth; minimal abstract anatomical sculpture, front view",
       "size": "1024x1024"
     },
     {
       "id": "tooth-turn",
       "kind": "keyframes-video",
-      "inputs": ["tooth-k1", "tooth-k2"],
-      "prompt": "the glass molar tooth rotates slowly and smoothly on its vertical axis from the first frame to the last frame, static camera, the tooth keeps exactly the same shape, root count and material, background unchanged",
+      "inputs": [
+        "tooth-k1",
+        "tooth-k2"
+      ],
+      "prompt": "the glass molar tooth turns slowly and smoothly on its vertical axis from the first frame to the last frame, rigid object, static camera, the tooth keeps exactly the same shape, the same three roots and the same material in every frame, no shadow, background unchanged",
       "width": 768,
       "height": 768,
-      "numFrames": 97,
+      "numFrames": 49,
       "frameRate": 24
     }
   ]
