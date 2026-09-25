@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Hanken_Grotesk, IBM_Plex_Mono, Newsreader } from "next/font/google";
+import { MotionProvider } from "@/components/motion/motion-provider";
 import { ALLOW_INDEXING, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
@@ -65,7 +66,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="pt-BR"
       className={`${newsreader.variable} ${newsreaderItalic.variable} ${hanken.variable} ${plexMono.variable} antialiased`}
     >
-      <body className="min-h-dvh">{children}</body>
+      <body className="min-h-dvh">
+        <MotionProvider>{children}</MotionProvider>
+      </body>
     </html>
   );
 }

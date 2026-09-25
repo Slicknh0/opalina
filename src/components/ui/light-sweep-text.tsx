@@ -6,9 +6,10 @@
  * "light sweep" — words deepen from grey to graphite in sequence, like light
  * crossing enamel.
  * Screen readers get the plain sentence; the animated words are presentational.
+ * With reduced motion, CSS pins the final colour (same markup on server/client).
  */
 
-import { motion, useReducedMotion, type Variants } from "motion/react";
+import { motion, type Variants } from "motion/react";
 import { type ElementType, Fragment } from "react";
 import { EASE_SOFT } from "@/lib/motion";
 
@@ -34,9 +35,6 @@ export function LightSweepText({
   as: Tag = "p",
   className,
 }: LightSweepTextProps) {
-  const reduceMotion = useReducedMotion();
-  if (reduceMotion) return <Tag className={className}>{text}</Tag>;
-
   return (
     <Tag className={className}>
       <span className="sr-only">{text}</span>
@@ -51,7 +49,10 @@ export function LightSweepText({
           // biome-ignore lint/suspicious/noArrayIndexKey: static sentence, order never changes
           <Fragment key={i}>
             {i > 0 && " "}
-            <motion.span variants={word} className="inline-block">
+            <motion.span
+              variants={word}
+              className="inline-block motion-reduce:text-foreground!"
+            >
               {w}
             </motion.span>
           </Fragment>

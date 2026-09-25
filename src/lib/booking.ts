@@ -1,4 +1,4 @@
-import { normalizeBrPhone } from "./whatsapp";
+import { formatBrPhone, normalizeBrPhone } from "./whatsapp";
 
 export const MESSAGE_MAX = 500;
 
@@ -50,8 +50,14 @@ export function composeBookingMessage(
   const lines = [
     "Olá! Gostaria de agendar uma avaliação na Opalina.",
     `Nome: ${data.name}`,
+    `WhatsApp: ${formatPhone(data.phone)}`,
     `Interesse: ${treatmentLabel}`,
   ];
   if (data.message) lines.push(`Observação: ${data.message}`);
   return lines.join("\n");
+}
+
+function formatPhone(phone: string): string {
+  const digits = normalizeBrPhone(phone);
+  return digits ? formatBrPhone(digits) : phone;
 }

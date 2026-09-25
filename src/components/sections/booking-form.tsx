@@ -1,6 +1,6 @@
 "use client";
 
-import { type FormEvent, useId, useRef, useState } from "react";
+import { type FormEvent, useEffect, useId, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { clinic } from "@/content/clinic";
 import {
@@ -13,7 +13,7 @@ import {
 import { cn } from "@/lib/cn";
 import { resolveBookingTarget } from "@/lib/contact";
 
-type Status = "idle" | "sent" | "not-configured";
+type Status = "idle" | "invalid" | "sent" | "not-configured";
 
 const EMPTY: BookingInput = { name: "", phone: "", treatment: "", message: "" };
 const FIELD_ORDER: (keyof BookingInput)[] = [
@@ -32,7 +32,17 @@ export function BookingForm() {
   const [errors, setErrors] = useState<BookingErrors>({});
   const [status, setStatus] = useState<Status>("idle");
   const formRef = useRef<HTMLFormElement>(null);
+  const [invalidAttempt, setInvalidAttempt] = useState(0);
   const options = clinic.bookingOptions;
+
+  // Focus the first invalid field only after React has rendered aria-invalid
+  // and the error text, so assistive tech announces the problem with the field.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: runs once per failed submit
+  useEffect(() => {
+    if (invalidAttempt === 0) return;
+    const first = FIELD_ORDER.find((f) => errors[f]);
+    formRef.current?.querySelector<HTMLElement>(`[name="${first}"]`)?.focus();
+  }, [invalidAttempt]);
 
   const update = (field: keyof BookingInput, value: string) => {
     setValues((v) => ({ ...v, [field]: value }));
@@ -48,8 +58,8 @@ export function BookingForm() {
     );
     if (!result.ok) {
       setErrors(result.errors);
-      const first = FIELD_ORDER.find((f) => result.errors[f]);
-      formRef.current?.querySelector<HTMLElement>(`[name="${first}"]`)?.focus();
+      setStatus("invalid");
+      setInvalidAttempt((n) => n + 1);
       return;
     }
 
@@ -180,6 +190,11 @@ export function BookingForm() {
           informações de saúde por aqui.
         </p>
         <output className="block min-h-[1lh] text-[0.9375rem]">
+          {status === "invalid" && (
+            <span className="text-error">
+              Revise os campos indicados para enviar.
+            </span>
+          )}
           {status === "sent" &&
             "Abrimos o WhatsApp com a sua mensagem. É só enviar por lá."}
           {status === "not-configured" && (

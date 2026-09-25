@@ -54,6 +54,12 @@ describe("composeBookingMessage", () => {
     expect(text).toContain("Prefiro manhãs");
   });
 
+  it("includes the normalized WhatsApp so the clinic can reply", () => {
+    expect(composeBookingMessage(valid, "Lentes")).toContain(
+      "WhatsApp: +55 11 98765-4321",
+    );
+  });
+
   it("omits the message line when empty", () => {
     expect(composeBookingMessage(valid, "Lentes")).not.toContain("Observação");
   });

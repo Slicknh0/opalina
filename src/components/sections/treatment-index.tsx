@@ -73,7 +73,7 @@ export function TreatmentIndex({
                 onPointerEnter={() => onPointerEnter(treatment.id)}
                 onKeyDown={(event) => onKeyDown(event, index)}
                 initial={false}
-                animate={open && !reduceMotion ? "active" : "rest"}
+                animate={open ? "active" : "rest"}
                 className={cn(
                   "flex w-full items-baseline justify-between gap-6 py-5 text-left transition-colors duration-(--duration-ui) lg:py-6",
                   open

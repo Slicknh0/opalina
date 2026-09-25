@@ -13,6 +13,9 @@ export function MobileNav() {
   const panelId = useId();
   const triggerRef = useRef<HTMLButtonElement>(null);
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  // Following a link moves the reader to a section; only closing returns focus.
+  const returnFocus = useRef(true);
   const reduceMotion = useReducedMotion();
 
   useEffect(() => {
@@ -20,20 +23,47 @@ export function MobileNav() {
     const root = document.documentElement;
     const previous = root.style.overflow;
     root.style.overflow = "hidden";
+    returnFocus.current = true;
     firstLinkRef.current?.focus();
 
+    // Everything outside the header is inert while the sheet covers it.
+    const header = triggerRef.current?.closest("header");
+    const outside = [...document.body.children].filter(
+      (el): el is HTMLElement => el instanceof HTMLElement && el !== header,
+    );
+    for (const el of outside) el.inert = true;
+
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false);
+      if (event.key === "Escape") {
+        setOpen(false);
+        return;
+      }
+      if (event.key !== "Tab") return;
+      // Keep Tab cycling between the close button and the sheet.
+      const focusables = [
+        triggerRef.current,
+        ...(panelRef.current?.querySelectorAll<HTMLElement>("a, button") ?? []),
+      ].filter((el): el is HTMLElement => el !== null);
+      const index = focusables.indexOf(document.activeElement as HTMLElement);
+      const step = event.shiftKey ? -1 : 1;
+      const next =
+        focusables[(index + step + focusables.length) % focusables.length];
+      event.preventDefault();
+      next?.focus();
     };
     window.addEventListener("keydown", onKey);
     return () => {
       root.style.overflow = previous;
+      for (const el of outside) el.inert = false;
       window.removeEventListener("keydown", onKey);
-      triggerRef.current?.focus();
+      if (returnFocus.current) triggerRef.current?.focus();
     };
   }, [open]);
 
-  const close = () => setOpen(false);
+  const followLink = () => {
+    returnFocus.current = false;
+    setOpen(false);
+  };
 
   return (
     <div className="lg:hidden">
@@ -51,7 +81,11 @@ export function MobileNav() {
       <AnimatePresence>
         {open && (
           <motion.div
+            ref={panelRef}
             id={panelId}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Menu"
             initial={reduceMotion ? false : { opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -8 }}
@@ -65,7 +99,7 @@ export function MobileNav() {
                     <a
                       ref={index === 0 ? firstLinkRef : undefined}
                       href={item.href}
-                      onClick={close}
+                      onClick={followLink}
                       className="block py-4 font-display text-[2rem] font-light leading-tight"
                     >
                       {item.label}
@@ -76,7 +110,7 @@ export function MobileNav() {
             </nav>
             <ButtonLink
               href={bookingHref(clinic.whatsapp)}
-              onClick={close}
+              onClick={followLink}
               className="mt-auto w-full"
             >
               Agendar avaliação
