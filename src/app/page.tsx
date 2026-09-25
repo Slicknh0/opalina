@@ -3,6 +3,7 @@ import { Header } from "@/components/layout/header";
 import { MobileActionBar } from "@/components/layout/mobile-action-bar";
 import { Hero } from "@/components/sections/hero";
 import { Principle } from "@/components/sections/principle";
+import { Treatments } from "@/components/sections/treatments";
 import { Container } from "@/components/ui/container";
 
 export default function Home() {
@@ -18,14 +19,13 @@ export default function Home() {
       <main id="conteudo">
         <Hero />
         <Principle />
+        <Treatments />
         <Container className="min-h-[150vh]">
-          {["tratamentos", "escala", "metodo", "profissional", "contato"].map(
-            (id) => (
-              <section key={id} id={id} className="py-24">
-                <h2 className="font-display text-heading">{id}</h2>
-              </section>
-            ),
-          )}
+          {["escala", "metodo", "profissional", "contato"].map((id) => (
+            <section key={id} id={id} className="py-24">
+              <h2 className="font-display text-heading">{id}</h2>
+            </section>
+          ))}
         </Container>
       </main>
       <Footer />

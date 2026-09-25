@@ -14,7 +14,6 @@ export type Treatment = {
   name: string;
   summary: string;
   indication: string;
-  image: { src: string; alt: string } | null;
 };
 
 export type FaqItem = { question: string; answer: Maybe<string> };
@@ -29,7 +28,6 @@ const treatments: Treatment[] = [
       "Lâminas finas de cerâmica aplicadas na frente dos dentes para ajustar cor, forma e proporção. Em muitos casos pedem pouco ou nenhum desgaste — isso é definido na avaliação.",
     indication:
       "Pequenas alterações de forma, espaços entre os dentes e manchas que não respondem ao clareamento.",
-    image: null,
   },
   {
     id: "facetas",
@@ -38,7 +36,6 @@ const treatments: Treatment[] = [
       "Mais espessas que as lentes, corrigem alterações maiores de cor, formato e alinhamento, com a translucidez natural da cerâmica.",
     indication:
       "Dentes muito escurecidos, desgastados ou com restaurações antigas aparentes.",
-    image: null,
   },
   {
     id: "clareamento",
@@ -47,7 +44,6 @@ const treatments: Treatment[] = [
       "Clareamento supervisionado, no consultório ou em casa com moldeiras sob medida, planejado para chegar a um tom que combine com você.",
     indication:
       "Dentes saudáveis que escureceram com o tempo, café, vinho ou tabaco.",
-    image: null,
   },
   {
     id: "alinhadores",
@@ -56,7 +52,6 @@ const treatments: Treatment[] = [
       "Placas removíveis e discretas que movimentam os dentes aos poucos, com cada etapa simulada no planejamento digital.",
     indication:
       "Dentes desalinhados, apinhados ou com pequenos espaços, em adultos e adolescentes.",
-    image: null,
   },
   {
     id: "gengiva",
@@ -65,7 +60,6 @@ const treatments: Treatment[] = [
       "Ajuste delicado da linha da gengiva para equilibrar a proporção entre dentes, lábios e sorriso.",
     indication:
       "Sorriso gengival, dentes que parecem curtos ou gengiva com contorno irregular.",
-    image: null,
   },
   {
     id: "reabilitacao",
@@ -74,7 +68,6 @@ const treatments: Treatment[] = [
       "Um plano combinado para devolver função e estética, com restaurações, coroas ou implantes quando indicados.",
     indication:
       "Perdas dentárias, desgastes extensos ou vários tratamentos antigos a refazer.",
-    image: null,
   },
 ];
 
