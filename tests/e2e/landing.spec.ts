@@ -118,8 +118,29 @@ test.describe("with reduced motion", () => {
     const h1 = page.locator("h1");
     await expect(h1).toHaveText("Estética dental com a naturalidade da luz.");
     await expect(h1).toHaveCSS("opacity", "1");
+    await page.mouse.move(200, 200);
     await page.waitForTimeout(1000);
-    await expect(page.locator("canvas")).toHaveCount(0);
+    await expect(page.locator("canvas:visible")).toHaveCount(0);
+  });
+
+  test("stacks the tooth story without pinning", async ({ page }) => {
+    const sticky = await page.evaluate(
+      () =>
+        [...document.querySelectorAll("#inicio *")].filter(
+          (el) => getComputedStyle(el).position === "sticky",
+        ).length,
+    );
+    expect(sticky).toBe(0);
+    for (const name of ["k1", "cutaway", "implant"]) {
+      const still = page.locator(`#inicio img[src*="/tooth/${name}-"]`);
+      await still.scrollIntoViewIfNeeded();
+      await expect(still).toBeVisible();
+      expect(
+        await still.evaluate(
+          (el) => getComputedStyle(el.parentElement as Element).clipPath,
+        ),
+      ).not.toMatch(/ellipse\(0%/);
+    }
   });
 
   test("renders the method arch fully drawn", async ({ page }) => {
@@ -188,5 +209,146 @@ test.describe("mobile menu", () => {
       .getByRole("link", { name: "Método" })
       .press("Enter");
     await expect(page.getByRole("button", { name: "Menu" })).not.toBeFocused();
+  });
+});
+
+test.describe("tooth scene", () => {
+  /** Scrolls so the pinned scene is at `progress` (0..1) of its scroll length. */
+  async function scrollScene(
+    page: import("@playwright/test").Page,
+    progress: number,
+  ) {
+    await page.evaluate((p) => {
+      const track = document.querySelector("#inicio > div") as HTMLElement;
+      const range = track.offsetHeight - window.innerHeight;
+      window.scrollTo({
+        top: track.offsetTop + range * p,
+        behavior: "instant",
+      });
+    }, progress);
+    await page.waitForTimeout(400);
+  }
+
+  test("shows the poster before any interaction", async ({ page }) => {
+    await page.goto("/");
+    const poster = page.locator('#inicio img[src*="/tooth/k1-"]');
+    await expect(poster).toBeVisible();
+    await expect
+      .poll(() => poster.evaluate((img: HTMLImageElement) => img.naturalWidth))
+      .toBeGreaterThan(0);
+    const frames = await page.evaluate(
+      () =>
+        performance
+          .getEntriesByType("resource")
+          .filter((r) => r.name.includes("/tooth/frames/")).length,
+    );
+    expect(frames).toBe(0);
+  });
+
+  test("scrolling scrubs the turn frames", async ({ page }) => {
+    await page.goto("/");
+    // Interaction only arms the frame loader once the page has hydrated.
+    await page.waitForLoadState("networkidle");
+    await page.mouse.move(300, 300);
+    await page.mouse.move(320, 320);
+    await scrollScene(page, 0.05);
+    const wrapper = page
+      .locator("#inicio canvas[data-scene-frames]")
+      .locator("..");
+    await expect(wrapper).toHaveCSS("opacity", "1", { timeout: 10_000 });
+    const first = await page
+      .locator("#inicio canvas[data-scene-frames]")
+      .evaluate((c: HTMLCanvasElement) => c.toDataURL());
+    await scrollScene(page, 0.3);
+    await expect
+      .poll(() =>
+        page
+          .locator("#inicio canvas[data-scene-frames]")
+          .evaluate((c: HTMLCanvasElement) => c.toDataURL()),
+      )
+      .not.toBe(first);
+  });
+
+  test("loads the frame set that matches the screen", async ({
+    page,
+    isMobile,
+  }) => {
+    await page.goto("/");
+    // Interaction only arms the frame loader once the page has hydrated.
+    await page.waitForLoadState("networkidle");
+    await page.mouse.move(300, 300);
+    await page.mouse.move(320, 320);
+    await scrollScene(page, 0.1);
+    await expect
+      .poll(() =>
+        page.evaluate(() =>
+          performance
+            .getEntriesByType("resource")
+            .some((r) => r.name.includes("/tooth/frames/")),
+        ),
+      )
+      .toBe(true);
+    const sets = await page.evaluate(() => [
+      ...new Set(
+        performance
+          .getEntriesByType("resource")
+          .map((r) => r.name.match(/\/frames\/(desktop|mobile)\//)?.[1])
+          .filter(Boolean),
+      ),
+    ]);
+    expect(sets).toEqual([isMobile ? "mobile" : "desktop"]);
+  });
+
+  test("shows the layer labels in the layers beat", async ({ page }) => {
+    await page.goto("/");
+    await scrollScene(page, 0.6);
+    await expect(page.locator("#inicio")).toHaveAttribute(
+      "data-beat",
+      "layers",
+    );
+    for (const name of ["Esmalte", "Dentina", "Polpa"]) {
+      await expect(
+        page.locator("#inicio [data-label]", { hasText: name }),
+      ).toHaveCSS("opacity", "1");
+    }
+    await expect(
+      page.getByRole("heading", { name: "Naturalidade antes de brancura." }),
+    ).toBeVisible();
+  });
+
+  test("renders the right beat when landing mid-scene", async ({ page }) => {
+    await page.goto("/");
+    await scrollScene(page, 0.85);
+    await page.reload();
+    await page.waitForLoadState("networkidle");
+    expect(await page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
+    await expect(page.locator("#inicio")).toHaveAttribute(
+      "data-beat",
+      "implant",
+    );
+    const clip = await page
+      .locator('#inicio img[src*="/tooth/implant-"]')
+      .evaluate((el) => getComputedStyle(el.parentElement as Element).clipPath);
+    expect(clip).not.toMatch(/ellipse\(0%/);
+  });
+
+  test("keyboard reaches the scene's booking link in view", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    for (let i = 0; i < 20; i++) {
+      await page.keyboard.press("Tab");
+      const inScene = await page.evaluate(() => {
+        const el = document.activeElement;
+        return (
+          !!el?.closest("#inicio") &&
+          el?.textContent?.trim() === "Agendar avaliação"
+        );
+      });
+      if (inScene) break;
+    }
+    const focused = page.locator("#inicio a:focus");
+    await expect(focused).toHaveText("Agendar avaliação");
+    await expect(focused).toBeInViewport();
   });
 });

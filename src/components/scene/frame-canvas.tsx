@@ -95,7 +95,7 @@ export function FrameCanvas({ progress, active, className }: FrameCanvasProps) {
         className,
       )}
     >
-      <canvas ref={canvasRef} className="h-full w-full" />
+      <canvas ref={canvasRef} data-scene-frames="" className="h-full w-full" />
     </div>
   );
 }
