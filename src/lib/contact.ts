@@ -14,3 +14,16 @@ export function phoneHref(phone: Maybe<string>): string {
   const digits = normalizeBrPhone(phone);
   return digits ? `tel:+${digits}` : "#contato";
 }
+
+export type BookingTarget =
+  | { kind: "whatsapp"; url: string }
+  | { kind: "not-configured" };
+
+/** Where a validated booking goes. Never pretends to send while the number is a placeholder. */
+export function resolveBookingTarget(
+  whatsapp: Maybe<string>,
+  message: string,
+): BookingTarget {
+  if (isPlaceholder(whatsapp)) return { kind: "not-configured" };
+  return { kind: "whatsapp", url: buildWhatsAppLink(whatsapp, message) };
+}

@@ -1,6 +1,7 @@
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { MobileActionBar } from "@/components/layout/mobile-action-bar";
+import { Contact } from "@/components/sections/contact";
 import { Doctor } from "@/components/sections/doctor";
 import { Faq } from "@/components/sections/faq";
 import { Hero } from "@/components/sections/hero";
@@ -29,7 +30,7 @@ export default function Home() {
         <Doctor />
         <Reviews />
         <Faq />
-        <section id="contato" className="py-24" />
+        <Contact />
       </main>
       <Footer />
       <MobileActionBar />

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { bookingHref, phoneHref } from "./contact";
+import { bookingHref, phoneHref, resolveBookingTarget } from "./contact";
 import { placeholder } from "./placeholder";
 
 describe("bookingHref", () => {
@@ -21,5 +21,20 @@ describe("phoneHref", () => {
 
   it("builds a tel: link from a formatted number", () => {
     expect(phoneHref("(11) 3456-7890")).toBe("tel:+551134567890");
+  });
+});
+
+describe("resolveBookingTarget", () => {
+  it("is not-configured while WhatsApp is a placeholder", () => {
+    expect(resolveBookingTarget(placeholder("WhatsApp"), "oi")).toEqual({
+      kind: "not-configured",
+    });
+  });
+
+  it("builds a wa.me link for a real number", () => {
+    expect(resolveBookingTarget("5511987654321", "oi")).toEqual({
+      kind: "whatsapp",
+      url: "https://wa.me/5511987654321?text=oi",
+    });
   });
 });
