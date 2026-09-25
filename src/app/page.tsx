@@ -1,6 +1,7 @@
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { MobileActionBar } from "@/components/layout/mobile-action-bar";
+import { Hero } from "@/components/sections/hero";
 import { Container } from "@/components/ui/container";
 
 export default function Home() {
@@ -14,8 +15,8 @@ export default function Home() {
       </a>
       <Header />
       <main id="conteudo">
-        <Container className="min-h-[150vh] pt-40">
-          <h1 className="font-display text-display font-light">Opalina</h1>
+        <Hero />
+        <Container className="min-h-[150vh]">
           {["tratamentos", "escala", "metodo", "profissional", "contato"].map(
             (id) => (
               <section key={id} id={id} className="py-24">

@@ -34,7 +34,17 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="pt-BR"
       className={`${newsreader.variable} ${hanken.variable} ${plexMono.variable} antialiased`}
+      suppressHydrationWarning
     >
+      <head>
+        {/* Marks JS as running before paint, so the hero title can wait for its choreography. */}
+        <script
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: static, author-controlled one-liner
+          dangerouslySetInnerHTML={{
+            __html: "document.documentElement.classList.add('js')",
+          }}
+        />
+      </head>
       <body className="min-h-dvh">{children}</body>
     </html>
   );

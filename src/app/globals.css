@@ -20,7 +20,7 @@
   --font-sans: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, monospace;
 
-  --text-display: clamp(2.75rem, 1.5rem + 5.4vw, 6.75rem);
+  --text-display: clamp(2.75rem, 1.6rem + 4.6vw, 5.75rem);
   --text-display--line-height: 0.98;
   --text-display--letter-spacing: -0.028em;
   --text-heading: clamp(2.125rem, 1.45rem + 2.8vw, 4rem);
