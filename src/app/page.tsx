@@ -2,6 +2,7 @@ import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { MobileActionBar } from "@/components/layout/mobile-action-bar";
 import { Hero } from "@/components/sections/hero";
+import { Principle } from "@/components/sections/principle";
 import { Container } from "@/components/ui/container";
 
 export default function Home() {
@@ -16,6 +17,7 @@ export default function Home() {
       <Header />
       <main id="conteudo">
         <Hero />
+        <Principle />
         <Container className="min-h-[150vh]">
           {["tratamentos", "escala", "metodo", "profissional", "contato"].map(
             (id) => (
