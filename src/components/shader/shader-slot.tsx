@@ -2,7 +2,7 @@
 
 import { motion, useInView, useReducedMotion } from "motion/react";
 import dynamic from "next/dynamic";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useWebGL } from "@/hooks/use-webgl";
 import { cn } from "@/lib/cn";
 import { DURATION, EASE_SOFT } from "@/lib/motion";
@@ -15,7 +15,8 @@ type ShaderSlotProps = { variant: ShaderVariant; className?: string };
 
 /**
  * Static glow always; the WebGL shader on top only when it can run well:
- * WebGL available, motion allowed, and the slot near the viewport.
+ * WebGL available, motion allowed, the slot near the viewport, and the visitor
+ * has interacted once (so three.js never competes with first load).
  * Leaving the viewport unmounts the canvas, which stops GPU work.
  */
 export function ShaderSlot({ variant, className }: ShaderSlotProps) {
@@ -23,7 +24,8 @@ export function ShaderSlot({ variant, className }: ShaderSlotProps) {
   const inView = useInView(ref, { margin: "200px 0px" });
   const reduceMotion = useReducedMotion();
   const webgl = useWebGL();
-  const live = inView && webgl === true && !reduceMotion;
+  const armed = useFirstInteraction();
+  const live = armed && inView && webgl === true && !reduceMotion;
 
   return (
     <div
@@ -44,4 +46,26 @@ export function ShaderSlot({ variant, className }: ShaderSlotProps) {
       )}
     </div>
   );
+}
+
+const INTERACTIONS = [
+  "pointermove",
+  "pointerdown",
+  "keydown",
+  "scroll",
+  "touchstart",
+];
+
+function useFirstInteraction() {
+  const [armed, setArmed] = useState(false);
+  useEffect(() => {
+    const arm = () => setArmed(true);
+    for (const type of INTERACTIONS) {
+      window.addEventListener(type, arm, { once: true, passive: true });
+    }
+    return () => {
+      for (const type of INTERACTIONS) window.removeEventListener(type, arm);
+    };
+  }, []);
+  return armed;
 }

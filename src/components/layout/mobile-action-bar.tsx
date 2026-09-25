@@ -34,13 +34,13 @@ export function MobileActionBar() {
           <div className="grid grid-cols-2 gap-3">
             <a
               href={bookingHref(clinic.whatsapp)}
-              className="inline-flex min-h-12 items-center justify-center rounded-sm bg-primary text-[0.9375rem] font-medium text-primary-foreground"
+              className="inline-flex min-h-12 items-center justify-center rounded-sm bg-primary text-[0.875rem] font-medium whitespace-nowrap sm:text-[0.9375rem] text-primary-foreground"
             >
-              Agendar pelo WhatsApp
+              Agendar avaliação
             </a>
             <a
               href={phoneHref(clinic.phone)}
-              className="inline-flex min-h-12 items-center justify-center rounded-sm border border-foreground/25 text-[0.9375rem] font-medium"
+              className="inline-flex min-h-12 items-center justify-center rounded-sm border border-foreground/25 text-[0.875rem] font-medium whitespace-nowrap sm:text-[0.9375rem]"
             >
               Ligar
             </a>

@@ -5,8 +5,8 @@ import type { MethodStep } from "@/content/clinic";
 import { cn } from "@/lib/cn";
 
 /**
- * The method's steps, with the one in the middle of the viewport emphasised.
- * Before the observer reports (or without JS) every step is fully visible.
+ * The method's steps. The step in the middle of the viewport gets the accent
+ * marker; every step keeps full text contrast.
  */
 export function MethodSteps({ steps }: { steps: readonly MethodStep[] }) {
   const [current, setCurrent] = useState<number | null>(null);
@@ -35,12 +35,15 @@ export function MethodSteps({ steps }: { steps: readonly MethodStep[] }) {
           ref={(el) => {
             items.current[i] = el;
           }}
-          className={cn(
-            "border-t border-border pt-6 transition-opacity duration-(--duration-reveal) ease-soft lg:flex lg:min-h-[55vh] lg:flex-col lg:justify-center lg:border-t-0 lg:pt-0",
-            current !== null && current !== i && "lg:opacity-35",
-          )}
+          aria-current={current === i ? "step" : undefined}
+          className="border-t border-border pt-6 lg:flex lg:min-h-[44vh] lg:flex-col lg:justify-center lg:border-t-0 lg:pt-0"
         >
-          <p className="font-mono text-caption text-accent">
+          <p
+            className={cn(
+              "font-mono text-caption transition-colors duration-(--duration-reveal)",
+              current === null || current === i ? "text-accent" : "text-muted",
+            )}
+          >
             {String(i + 1).padStart(2, "0")}
           </p>
           <h3 className="mt-3 font-display text-[clamp(1.75rem,1.3rem+1.4vw,2.5rem)] font-light leading-tight">

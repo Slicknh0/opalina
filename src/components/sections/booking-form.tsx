@@ -24,7 +24,7 @@ const FIELD_ORDER: (keyof BookingInput)[] = [
 ];
 
 const fieldClass =
-  "mt-2 block min-h-12 w-full rounded-none border-0 border-b border-foreground/30 bg-transparent px-0 py-2 text-[1.0625rem] transition-colors duration-(--duration-ui) placeholder:text-muted/70 focus:border-accent focus:outline-none focus-visible:outline-none aria-invalid:border-error";
+  "mt-2 block min-h-12 w-full rounded-none border-0 border-b border-foreground/55 bg-transparent px-0 py-2 text-[1.0625rem] transition-colors duration-(--duration-ui) placeholder:text-muted focus:border-accent focus:outline-none focus-visible:outline-none aria-invalid:border-error";
 
 export function BookingForm() {
   const id = useId();

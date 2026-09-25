@@ -78,7 +78,7 @@ export function TreatmentIndex({
                   "flex w-full items-baseline justify-between gap-6 py-5 text-left transition-colors duration-(--duration-ui) lg:py-6",
                   open
                     ? "text-foreground"
-                    : "text-foreground/50 hover:text-foreground/80",
+                    : "text-foreground/55 hover:text-foreground/80",
                 )}
               >
                 <TextRoll className="font-display text-[clamp(1.75rem,1.25rem+1.7vw,2.75rem)] font-light leading-[1.05] tracking-[-0.015em]">

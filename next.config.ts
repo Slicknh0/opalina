@@ -2,8 +2,8 @@ import type { NextConfig } from "next";
 
 const isDev = process.env.NODE_ENV === "development";
 
-// No nonces: the page is statically prerendered. Inline scripts are Next's
-// bootstrap plus our one-line html.js marker; WebGL needs blob: workers.
+// No nonces: the page is statically prerendered and Next's bootstrap uses
+// inline scripts; the JSON-LD block is data. WebGL needs blob: workers.
 const csp = [
   "default-src 'self'",
   `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,

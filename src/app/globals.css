@@ -17,6 +17,8 @@
   --color-error: #a2402f;
 
   --font-display: var(--font-newsreader), ui-serif, Georgia, serif;
+  --font-display-italic:
+    var(--font-newsreader-italic), ui-serif, Georgia, serif;
   --font-sans: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, monospace;
 
@@ -42,6 +44,14 @@
   --ease-soft: cubic-bezier(0.65, 0, 0.35, 1);
 
   --container-page: 80rem;
+
+  --animate-rise: rise 1000ms var(--ease-porcelain) both;
+
+  @keyframes rise {
+    from {
+      transform: translateY(110%);
+    }
+  }
 }
 
 /* Motion durations shared with src/lib/motion.ts — keep the numbers in sync. */

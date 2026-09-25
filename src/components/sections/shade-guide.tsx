@@ -18,8 +18,8 @@ export function ShadeGuide() {
       aria-labelledby="escala-titulo"
       className="bg-surface py-24 lg:py-36"
     >
-      <Container className="grid gap-14 lg:grid-cols-12 lg:gap-8">
-        <div className="lg:col-span-5">
+      <Container className="grid gap-14 lg:grid-cols-12 lg:gap-8 [&>*]:min-w-0">
+        <div className="lg:col-span-5 lg:self-end">
           <h2
             id="escala-titulo"
             className="text-balance font-display text-heading font-light"
@@ -29,33 +29,32 @@ export function ShadeGuide() {
           <p className="mt-6 max-w-[46ch] text-supporting text-foreground/80">
             {shadeGuide.body}
           </p>
-          <div className="mt-10 border-t border-foreground/15 pt-6">
-            <p className="font-mono text-[1.75rem] leading-none">
-              {shade.code}
-            </p>
-            <p
-              aria-live="polite"
-              className="mt-3 min-h-[3lh] max-w-[40ch] text-[0.9375rem] text-foreground/80"
-            >
-              {shade.note}
-            </p>
-          </div>
         </div>
 
-        <div className="lg:col-span-7 lg:self-center">
+        <div className="border-t border-foreground/15 pt-6 max-lg:order-2 lg:col-span-5 lg:row-start-2 lg:self-start">
+          <p className="font-mono text-[1.75rem] leading-none">{shade.code}</p>
+          <p
+            aria-live="polite"
+            className="mt-3 min-h-[3lh] max-w-[40ch] text-[0.9375rem] text-foreground/80"
+          >
+            {shade.note}
+          </p>
+        </div>
+
+        <div className="max-lg:order-1 lg:col-span-7 lg:col-start-6 lg:row-span-2 lg:row-start-1 lg:self-center">
           <ShadeArch color={shade.hex} />
 
           {/* Native radios: arrows, Tab and screen readers work without extra code. */}
           <fieldset className="mt-10 min-w-0">
             <legend className="sr-only">Escolha um tom da escala</legend>
-            <div className="flex justify-center gap-2 sm:gap-3">
+            <div className="flex justify-center gap-1.5 sm:gap-3">
               {SHADES.map((s) => {
                 const checked = s.code === selected;
                 return (
                   <label
                     key={s.code}
                     className={cn(
-                      "flex w-12 cursor-pointer flex-col items-center gap-2 rounded-sm pt-2 pb-1 transition-transform duration-(--duration-ui) ease-porcelain has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-accent sm:w-14",
+                      "flex w-10 cursor-pointer flex-col items-center gap-2 rounded-sm pt-2 pb-1 transition-transform duration-(--duration-ui) ease-porcelain has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-accent sm:w-14",
                       checked ? "-translate-y-2" : "hover:-translate-y-1",
                     )}
                   >
@@ -78,7 +77,7 @@ export function ShadeGuide() {
                     <span
                       aria-hidden="true"
                       className={cn(
-                        "h-16 w-8 rounded-[50%/40%] border sm:h-20 sm:w-10",
+                        "h-14 w-7 rounded-[50%/40%] border sm:h-20 sm:w-10",
                         checked
                           ? "border-accent ring-2 ring-accent/30 ring-offset-2 ring-offset-surface"
                           : "border-foreground/15",

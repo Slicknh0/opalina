@@ -3,7 +3,8 @@
 /**
  * Adapted from Cult UI's `text-animate` (https://www.cult-ui.com, MIT):
  * same container/child variant structure and in-view trigger, rewritten as a
- * "light sweep" — words brighten in sequence, like light crossing enamel.
+ * "light sweep" — words deepen from grey to graphite in sequence, like light
+ * crossing enamel.
  * Screen readers get the plain sentence; the animated words are presentational.
  */
 
@@ -16,9 +17,10 @@ const container: Variants = {
   visible: { transition: { staggerChildren: 0.09, delayChildren: 0.15 } },
 };
 
+// Grey to graphite, not transparent: every state keeps readable contrast.
 const word: Variants = {
-  hidden: { opacity: 0.16 },
-  visible: { opacity: 1, transition: { duration: 0.9, ease: EASE_SOFT } },
+  hidden: { color: "#5b6168" },
+  visible: { color: "#23272d", transition: { duration: 0.9, ease: EASE_SOFT } },
 };
 
 type LightSweepTextProps = {

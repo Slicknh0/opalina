@@ -16,7 +16,7 @@ export function Reviews() {
           Avaliações de pacientes
         </h2>
         <figure className="mt-10">
-          <blockquote className="text-balance font-display text-[clamp(1.75rem,1.2rem+2vw,3rem)] font-light italic leading-[1.2]">
+          <blockquote className="text-balance font-display-italic text-[clamp(1.75rem,1.2rem+2vw,3rem)] font-light italic leading-[1.2]">
             <PlaceholderText value={review.quote} />
           </blockquote>
           <figcaption className="mt-8 text-[0.9375rem] text-muted">

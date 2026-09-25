@@ -39,7 +39,7 @@ export function Doctor() {
           <p className="mt-8 max-w-[48ch] text-supporting text-foreground/80">
             <PlaceholderText value={doctor.bio} />
           </p>
-          <blockquote className="mt-10 border-l border-accent/50 pl-6 font-display text-[1.5rem] font-light italic leading-snug">
+          <blockquote className="mt-10 border-l border-accent/50 pl-6 font-display-italic text-[1.5rem] font-light italic leading-snug">
             <PlaceholderText value={doctor.quote} />
           </blockquote>
         </div>

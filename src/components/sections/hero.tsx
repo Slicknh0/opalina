@@ -14,12 +14,14 @@ export function Hero() {
     >
       <Container className="grid items-center gap-12 lg:grid-cols-12 lg:gap-8">
         <div className="lg:col-span-7">
-          <p className="text-supporting text-muted">{hero.lead}</p>
-          <HeroTitle className="mt-6 max-w-[15ch] text-balance font-display text-display font-light">
+          <HeroTitle
+            id="hero-title"
+            className="max-w-[15ch] text-balance font-display text-display font-light"
+          >
             {hero.title}
           </HeroTitle>
           <p className="mt-8 max-w-[46ch] text-supporting text-foreground/80">
-            {hero.body}
+            {hero.lead} {hero.body}
           </p>
           <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6">
             <ButtonLink href={bookingHref(clinic.whatsapp)}>
