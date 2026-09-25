@@ -25,13 +25,30 @@ export default function Home() {
       <Header />
       <main id="conteudo">
         <ToothScene />
-        <Treatments />
-        <ShadeGuide />
-        <Method />
-        <Doctor />
-        <Reviews />
-        <Faq />
-        <Contact />
+        {/* Below the fold: each section skips layout and paint until it nears
+            the viewport; the intrinsic sizes are first guesses the browser
+            replaces with the real height once rendered. */}
+        <div className="[contain-intrinsic-size:auto_1300px] [content-visibility:auto]">
+          <Treatments />
+        </div>
+        <div className="[contain-intrinsic-size:auto_900px] [content-visibility:auto]">
+          <ShadeGuide />
+        </div>
+        <div className="[contain-intrinsic-size:auto_1800px] [content-visibility:auto]">
+          <Method />
+        </div>
+        <div className="[contain-intrinsic-size:auto_900px] [content-visibility:auto]">
+          <Doctor />
+        </div>
+        <div className="[contain-intrinsic-size:auto_600px] [content-visibility:auto]">
+          <Reviews />
+        </div>
+        <div className="[contain-intrinsic-size:auto_900px] [content-visibility:auto]">
+          <Faq />
+        </div>
+        <div className="[contain-intrinsic-size:auto_1400px] [content-visibility:auto]">
+          <Contact />
+        </div>
       </main>
       <Footer />
       <MobileActionBar />

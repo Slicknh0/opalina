@@ -160,9 +160,16 @@ async function archDash(page: import("@playwright/test").Page) {
   await page.waitForLoadState("networkidle");
   return page.evaluate(async () => {
     document.getElementById("metodo")?.scrollIntoView();
-    await new Promise((r) => setTimeout(r, 500));
-    const path = document.querySelectorAll("#metodo svg path")[1];
-    return path ? getComputedStyle(path).strokeDasharray : "missing";
+    // The arch loads lazily after the first interaction (the scroll above).
+    for (let i = 0; i < 40; i++) {
+      const path = document.querySelectorAll("#metodo svg path")[1];
+      if (path) {
+        await new Promise((r) => setTimeout(r, 300));
+        return getComputedStyle(path).strokeDasharray;
+      }
+      await new Promise((r) => setTimeout(r, 100));
+    }
+    return "missing";
   });
 }
 

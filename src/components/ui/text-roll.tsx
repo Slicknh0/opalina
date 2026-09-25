@@ -1,50 +1,19 @@
-"use client";
-
 /**
- * Adapted from Skiper UI `skiper58` TextRoll (https://skiper-ui.com, free tier):
- * ported from framer-motion to motion/react, driven by the parent's variant
- * ("rest" / "active") instead of its own hover, and hidden from assistive tech
- * behind a plain-text copy. Each word rolls inside its own clipped box, so a
- * long name wraps only between words and never overlaps across lines.
+ * Adapted from Skiper UI `skiper58` TextRoll (https://skiper-ui.com, free tier).
+ * The letter roll now runs on CSS transitions with per-letter delays, driven by
+ * `data-active="true"` on the nearest `group/roll` ancestor — the same effect
+ * without one animation component per letter (hundreds on this page), which
+ * kept hydration expensive. Each word rolls inside its own clipped box, so a
+ * long name wraps only between words; the plain text is kept for assistive tech.
  */
 
-import { motion, type Variants } from "motion/react";
 import { Fragment } from "react";
 import { cn } from "@/lib/cn";
-import { EASE_SOFT } from "@/lib/motion";
 
-const STAGGER = 0.012;
+const STAGGER_MS = 12;
 
-const top: Variants = { rest: { y: 0 }, active: { y: "-100%" } };
-const bottom: Variants = { rest: { y: "100%" }, active: { y: 0 } };
-
-function Letters({
-  chars,
-  offset,
-  middle,
-  variants,
-}: {
-  chars: string[];
-  offset: number;
-  middle: number;
-  variants: Variants;
-}) {
-  return chars.map((char, i) => (
-    <motion.span
-      // biome-ignore lint/suspicious/noArrayIndexKey: letters of a static label
-      key={i}
-      variants={variants}
-      transition={{
-        duration: 0.42,
-        ease: EASE_SOFT,
-        delay: STAGGER * Math.abs(offset + i - middle),
-      }}
-      className="inline-block"
-    >
-      {char}
-    </motion.span>
-  ));
-}
+const letter =
+  "inline-block transition-transform duration-[420ms] ease-soft motion-reduce:transition-none";
 
 export function TextRoll({
   children,
@@ -65,6 +34,9 @@ export function TextRoll({
           const chars = Array.from(word);
           const start = offset;
           offset += chars.length + 1;
+          const delay = (i: number) => ({
+            transitionDelay: `${Math.round(STAGGER_MS * Math.abs(start + i - middle))}ms`,
+          });
           return (
             // biome-ignore lint/suspicious/noArrayIndexKey: words of a static label
             <Fragment key={w}>
@@ -74,20 +46,34 @@ export function TextRoll({
                 className="relative inline-block overflow-hidden whitespace-nowrap align-top"
               >
                 <span className="block">
-                  <Letters
-                    chars={chars}
-                    offset={start}
-                    middle={middle}
-                    variants={top}
-                  />
+                  {chars.map((c, i) => (
+                    <span
+                      // biome-ignore lint/suspicious/noArrayIndexKey: letters of a static label
+                      key={i}
+                      className={cn(
+                        letter,
+                        "group-data-[active=true]/roll:-translate-y-full",
+                      )}
+                      style={delay(i)}
+                    >
+                      {c}
+                    </span>
+                  ))}
                 </span>
                 <span className="absolute inset-0 block">
-                  <Letters
-                    chars={chars}
-                    offset={start}
-                    middle={middle}
-                    variants={bottom}
-                  />
+                  {chars.map((c, i) => (
+                    <span
+                      // biome-ignore lint/suspicious/noArrayIndexKey: letters of a static label
+                      key={i}
+                      className={cn(
+                        letter,
+                        "translate-y-full group-data-[active=true]/roll:translate-y-0",
+                      )}
+                      style={delay(i)}
+                    >
+                      {c}
+                    </span>
+                  ))}
                 </span>
               </span>
             </Fragment>

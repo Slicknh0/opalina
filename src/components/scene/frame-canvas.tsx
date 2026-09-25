@@ -27,7 +27,12 @@ type FrameCanvasProps = {
 export function FrameCanvas({ progress, active, className }: FrameCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const drawn = useRef<number | null>(null);
-  const [set, setSet] = useState<FrameSet>(FRAME_SETS.desktop);
+  // Client-only component: pick the set for this screen before any fetch starts.
+  const [set, setSet] = useState<FrameSet>(() =>
+    typeof window === "undefined"
+      ? FRAME_SETS.desktop
+      : frameSetFor(window.innerWidth),
+  );
   const [visible, setVisible] = useState(false);
   const { getBitmap, loaded } = useFrameLoader(set, active);
 
