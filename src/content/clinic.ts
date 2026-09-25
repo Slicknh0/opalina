@@ -94,12 +94,29 @@ export const clinic = {
       "Cada sorriso é planejado individualmente, do estudo de cor ao ensaio digital.",
   },
 
-  principle: {
-    statement: "Naturalidade antes de brancura.",
-    paragraphs: [
-      "Um dente bonito não é o mais branco. É o que tem a translucidez certa na borda, a textura que reflete a luz e a proporção que conversa com o rosto.",
-      "Por isso o planejamento começa pela observação: como você sorri, fala e se vê. Só depois escolhemos material, cor e forma.",
-    ],
+  scene: {
+    beats: {
+      turn: {
+        title: "A luz atravessa o esmalte.",
+        body: "Um dente natural não é branco opaco: a borda é translúcida e a luz entra, reflete e volta com profundidade.",
+      },
+      layers: {
+        title: "Naturalidade antes de brancura.",
+        body: "Esmalte, dentina e polpa mudam a forma como cada dente reflete a luz. Por isso o planejamento começa pela observação, não pelo tom mais claro da escala.",
+        labels: { enamel: "Esmalte", dentine: "Dentina", pulp: "Polpa" },
+      },
+      implant: {
+        title: "Quando falta um dente, devolvemos forma e função.",
+        body: "Coroas e implantes planejados para se integrar ao sorriso, com a mesma atenção à cor e à translucidez.",
+      },
+    },
+    alts: {
+      k1: "Ilustração 3D de um molar com coroa de porcelana perolada e raízes de vidro fosco.",
+      cutaway:
+        "Ilustração 3D do mesmo molar cortado ao meio, mostrando esmalte, dentina e polpa.",
+      implant:
+        "Ilustração 3D de um implante dentário: coroa de porcelana, pilar e parafuso.",
+    },
   },
 
   treatments,

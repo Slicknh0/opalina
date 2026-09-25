@@ -1,12 +1,11 @@
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { MobileActionBar } from "@/components/layout/mobile-action-bar";
+import { ToothScene } from "@/components/scene/tooth-scene";
 import { Contact } from "@/components/sections/contact";
 import { Doctor } from "@/components/sections/doctor";
 import { Faq } from "@/components/sections/faq";
-import { Hero } from "@/components/sections/hero";
 import { Method } from "@/components/sections/method";
-import { Principle } from "@/components/sections/principle";
 import { Reviews } from "@/components/sections/reviews";
 import { ShadeGuide } from "@/components/sections/shade-guide";
 import { Treatments } from "@/components/sections/treatments";
@@ -25,8 +24,7 @@ export default function Home() {
       </a>
       <Header />
       <main id="conteudo">
-        <Hero />
-        <Principle />
+        <ToothScene />
         <Treatments />
         <ShadeGuide />
         <Method />

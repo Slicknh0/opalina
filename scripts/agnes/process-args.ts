@@ -1,5 +1,9 @@
 const round2 = (n: number) => Math.round(n * 100) / 100;
 
+// Lifts the render background (~235 grey) to white so it disappears under
+// mix-blend-multiply on the porcelain page; the tooth brightens ~8%.
+const LIFT = "colorlevels=rimax=0.92:gimax=0.92:bimax=0.92";
+
 /** ffmpeg args that sample exactly `count` frames evenly across [start, end]. */
 export function frameExtractArgs(
   input: string,
@@ -16,7 +20,7 @@ export function frameExtractArgs(
     "-i",
     input,
     "-vf",
-    `fps=${fps},scale=${o.width}:-2:flags=lanczos`,
+    `fps=${fps},${LIFT},scale=${o.width}:-2:flags=lanczos`,
     "-frames:v",
     String(o.count),
     "-c:v",
@@ -37,7 +41,7 @@ export function stillArgs(
     "-i",
     input,
     "-vf",
-    `scale=${width}:-2:flags=lanczos`,
+    `${LIFT},scale=${width}:-2:flags=lanczos`,
     "-c:v",
     "libwebp",
     "-quality",
