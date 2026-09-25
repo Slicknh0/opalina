@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { bookingHref, phoneHref, resolveBookingTarget } from "./contact";
+import {
+  bookingHref,
+  externalHref,
+  phoneHref,
+  resolveBookingTarget,
+} from "./contact";
 import { placeholder } from "./placeholder";
 
 describe("bookingHref", () => {
@@ -36,5 +41,24 @@ describe("resolveBookingTarget", () => {
       kind: "whatsapp",
       url: "https://wa.me/5511987654321?text=oi",
     });
+  });
+});
+
+describe("externalHref", () => {
+  it("keeps https links", () => {
+    expect(externalHref("https://maps.google.com/?q=Opalina")).toBe(
+      "https://maps.google.com/?q=Opalina",
+    );
+  });
+
+  it.each([
+    "javascript:alert(1)",
+    " JavaScript:alert(1)",
+    "data:text/html,<script>alert(1)</script>",
+    "http://insecure.example",
+    "//evil.example",
+    "not a url",
+  ])("rejects %s", (href) => {
+    expect(externalHref(href)).toBeNull();
   });
 });

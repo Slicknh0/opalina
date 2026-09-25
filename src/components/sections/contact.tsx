@@ -2,6 +2,7 @@ import { ShaderSlot } from "@/components/shader/shader-slot";
 import { Container } from "@/components/ui/container";
 import { PlaceholderText } from "@/components/ui/placeholder-text";
 import { clinic } from "@/content/clinic";
+import { externalHref } from "@/lib/contact";
 import { isPlaceholder } from "@/lib/placeholder";
 import { BookingForm } from "./booking-form";
 
@@ -62,14 +63,16 @@ export function Contact() {
               {isPlaceholder(clinic.mapsUrl) ? (
                 <PlaceholderText value={clinic.mapsUrl} />
               ) : (
-                <a
-                  href={clinic.mapsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline underline-offset-4"
-                >
-                  Abrir no Google Maps
-                </a>
+                externalHref(clinic.mapsUrl) && (
+                  <a
+                    href={externalHref(clinic.mapsUrl) ?? undefined}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline underline-offset-4"
+                  >
+                    Abrir no Google Maps
+                  </a>
+                )
               )}
             </dd>
           </div>

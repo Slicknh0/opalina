@@ -27,3 +27,12 @@ export function resolveBookingTarget(
   if (isPlaceholder(whatsapp)) return { kind: "not-configured" };
   return { kind: "whatsapp", url: buildWhatsAppLink(whatsapp, message) };
 }
+
+/** An https URL from content, or null — never javascript:, data:, http: or protocol-relative. */
+export function externalHref(href: string): string | null {
+  try {
+    return new URL(href.trim()).protocol === "https:" ? href.trim() : null;
+  } catch {
+    return null;
+  }
+}

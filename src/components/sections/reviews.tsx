@@ -1,6 +1,7 @@
 import { Container } from "@/components/ui/container";
 import { PlaceholderText } from "@/components/ui/placeholder-text";
 import { clinic } from "@/content/clinic";
+import { externalHref } from "@/lib/contact";
 import { isPlaceholder } from "@/lib/placeholder";
 
 /** One real review, set large. No stars or scores: only what the clinic can show. */
@@ -27,14 +28,16 @@ export function Reviews() {
           {isPlaceholder(review.sourceUrl) ? (
             <PlaceholderText value={review.sourceUrl} />
           ) : (
-            <a
-              href={review.sourceUrl}
-              className="underline underline-offset-4"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              Ver todas as avaliações no Google
-            </a>
+            externalHref(review.sourceUrl) && (
+              <a
+                href={externalHref(review.sourceUrl) ?? undefined}
+                className="underline underline-offset-4"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Ver todas as avaliações no Google
+              </a>
+            )
           )}
         </p>
       </Container>
