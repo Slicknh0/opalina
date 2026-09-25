@@ -9,8 +9,8 @@ export type FrameSet = {
 };
 
 export const FRAME_SETS = {
-  desktop: { dir: "desktop", count: 48, width: 960 },
-  mobile: { dir: "mobile", count: 24, width: 640 },
+  desktop: { dir: "desktop", count: 24, width: 640 },
+  mobile: { dir: "mobile", count: 12, width: 480 },
 } as const satisfies Record<string, FrameSet>;
 
 const clamp01 = (n: number) =>

@@ -11,27 +11,21 @@
     {
       "id": "tooth-k2",
       "kind": "image-edit",
-      "inputs": [
-        "tooth-k1"
-      ],
+      "inputs": ["tooth-k1"],
       "prompt": "the exact same molar tooth with the same three roots, rotated 45 degrees clockwise around its vertical axis, same material, same lighting, same size and position, floating with absolutely no shadow on any surface, same plain background",
       "size": "1024x1024"
     },
     {
       "id": "tooth-cutaway",
       "kind": "image-edit",
-      "inputs": [
-        "tooth-k1"
-      ],
+      "inputs": ["tooth-k1"],
       "prompt": "the exact same molar tooth cut cleanly in half vertically to show its inner layers: a thin pearlescent enamel shell, warm ivory dentine beneath it, and a soft rose pulp chamber in the core running into the roots, same pose, same lighting, same background",
       "size": "1024x1024"
     },
     {
       "id": "tooth-implant",
       "kind": "image-edit",
-      "inputs": [
-        "tooth-k1"
-      ],
+      "inputs": ["tooth-k1"],
       "prompt": "in the same pose and position, a dental implant replacing the tooth: a pearlescent porcelain crown on top, a small ceramic abutment and a satin titanium screw implant below, slightly separated in an elegant exploded view, same lighting, same background",
       "size": "1024x1024"
     },
@@ -68,10 +62,7 @@
     {
       "id": "tooth-turn",
       "kind": "keyframes-video",
-      "inputs": [
-        "tooth-k1",
-        "tooth-k2"
-      ],
+      "inputs": ["tooth-k1", "tooth-k2"],
       "prompt": "the glass molar tooth turns slowly and smoothly on its vertical axis from the first frame to the last frame, rigid object, static camera, the tooth keeps exactly the same shape, the same three roots and the same material in every frame, no shadow, background unchanged",
       "width": 768,
       "height": 768,
