@@ -8,7 +8,7 @@ import { TextRoll } from "@/components/ui/text-roll";
 import type { Treatment } from "@/content/clinic";
 import { cn } from "@/lib/cn";
 import { DURATION, EASE_PORCELAIN } from "@/lib/motion";
-import { TreatmentSpecimen } from "./treatment-specimen";
+import { TreatmentRender } from "./treatment-render";
 
 type TreatmentIndexProps = { treatments: Treatment[]; bookingHref: string };
 
@@ -120,13 +120,18 @@ export function TreatmentIndex({
                           Agendar avaliação
                         </ButtonLink>
                       </div>
-                      <div className="relative mx-auto aspect-[3/4] w-32 overflow-hidden rounded-[50%/42%] sm:w-36 lg:hidden">
-                        <StaticGlow />
-                        <TreatmentSpecimen
-                          id={treatment.id}
-                          className="relative h-full w-full"
-                        />
-                      </div>
+                      <figure className="mx-auto w-40 sm:w-44 lg:hidden">
+                        <div className="relative aspect-[3/4] overflow-hidden rounded-[50%/42%]">
+                          <StaticGlow />
+                          <TreatmentRender
+                            render={treatment.render}
+                            className="relative"
+                          />
+                        </div>
+                        <figcaption className="mt-2 text-center text-caption text-muted">
+                          Ilustração 3D
+                        </figcaption>
+                      </figure>
                     </div>
                   </motion.div>
                 )}
@@ -149,15 +154,15 @@ export function TreatmentIndex({
                 exit={{ opacity: 0, scale: 0.98 }}
                 transition={transition}
               >
-                <TreatmentSpecimen
-                  id={active ?? ""}
-                  className="h-full w-full"
-                />
+                {current && (
+                  <TreatmentRender render={current.render} decorative />
+                )}
               </motion.div>
             </AnimatePresence>
           </div>
           <p className="mt-5 text-center text-caption text-muted">
             {current?.name}
+            <span className="block">Ilustração 3D</span>
           </p>
         </div>
       </div>
