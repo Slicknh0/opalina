@@ -16,6 +16,7 @@ export function SceneStill({
   className,
 }: SceneStillProps) {
   return (
+    // biome-ignore lint/performance/noImgElement: next/image optimisation needs sharp, whose build is blocked; sizes are pre-generated
     <img
       src={`/tooth/${name}-1024.webp`}
       srcSet={`/tooth/${name}-640.webp 640w, /tooth/${name}-1024.webp 1024w`}

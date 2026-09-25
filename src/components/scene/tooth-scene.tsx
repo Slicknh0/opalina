@@ -16,6 +16,7 @@ import { useFirstInteraction } from "@/hooks/use-first-interaction";
 import { bookingHref } from "@/lib/contact";
 import { type Beat, beatForProgress, SCENE, wipeProgress } from "@/lib/scene";
 import { FrameCanvas } from "./frame-canvas";
+import { LayerLabels } from "./layer-labels";
 import { SceneStill } from "./scene-still";
 
 /** Oval mask that grows from the tooth's centre as a wipe progresses. */
@@ -144,33 +145,37 @@ export function ToothScene() {
 
             {/* Stage: poster, turning frames, then the wipes. */}
             <div className="order-1 md:order-2 md:col-span-6">
-              <div className="relative mx-auto aspect-square w-[min(80vw,40svh)] [mask-image:radial-gradient(closest-side,#000_78%,transparent)] md:w-full md:max-w-[36rem] motion-reduce:flex motion-reduce:[mask-image:none] motion-reduce:aspect-auto motion-reduce:w-full motion-reduce:flex-col motion-reduce:gap-10">
-                <div className="absolute inset-[10%] overflow-hidden rounded-full opacity-70 blur-2xl motion-reduce:hidden">
-                  <ShaderSlot variant="hero" />
+              <div className="relative mx-auto aspect-square w-[min(80vw,40svh)] md:w-full md:max-w-[36rem] motion-reduce:aspect-auto motion-reduce:w-full">
+                {/* Images fade out at the edges so the tooth floats on the page. */}
+                <div className="absolute inset-0 [mask-image:radial-gradient(closest-side,#000_78%,transparent)] motion-reduce:relative motion-reduce:flex motion-reduce:flex-col motion-reduce:gap-10 motion-reduce:[mask-image:none]">
+                  <div className="absolute inset-[10%] overflow-hidden rounded-full opacity-70 blur-2xl motion-reduce:hidden">
+                    <ShaderSlot variant="hero" />
+                  </div>
+                  <SceneStill
+                    name="k1"
+                    alt={scene.alts.k1}
+                    priority
+                    className="absolute inset-0 motion-reduce:relative"
+                  />
+                  <FrameCanvas
+                    progress={scrollYProgress}
+                    active={armed && motionAllowed}
+                    className="mix-blend-multiply motion-reduce:hidden"
+                  />
+                  <motion.div
+                    style={{ clipPath: cutawayClip }}
+                    className="absolute inset-0 motion-reduce:relative motion-reduce:[clip-path:none]!"
+                  >
+                    <SceneStill name="cutaway" alt={scene.alts.cutaway} />
+                  </motion.div>
+                  <motion.div
+                    style={{ clipPath: implantClip }}
+                    className="absolute inset-0 motion-reduce:relative motion-reduce:[clip-path:none]!"
+                  >
+                    <SceneStill name="implant" alt={scene.alts.implant} />
+                  </motion.div>
                 </div>
-                <SceneStill
-                  name="k1"
-                  alt={scene.alts.k1}
-                  priority
-                  className="absolute inset-0 motion-reduce:relative"
-                />
-                <FrameCanvas
-                  progress={scrollYProgress}
-                  active={armed && motionAllowed}
-                  className="mix-blend-multiply motion-reduce:hidden"
-                />
-                <motion.div
-                  style={{ clipPath: cutawayClip }}
-                  className="absolute inset-0 motion-reduce:relative motion-reduce:[clip-path:none]!"
-                >
-                  <SceneStill name="cutaway" alt={scene.alts.cutaway} />
-                </motion.div>
-                <motion.div
-                  style={{ clipPath: implantClip }}
-                  className="absolute inset-0 motion-reduce:relative motion-reduce:[clip-path:none]!"
-                >
-                  <SceneStill name="implant" alt={scene.alts.implant} />
-                </motion.div>
+                <LayerLabels progress={scrollYProgress} />
               </div>
               <p className="mx-auto mt-4 max-w-[40ch] text-center text-caption text-muted transition-opacity duration-(--duration-reveal) group-data-[beat=layers]/scene:opacity-0 group-data-[beat=implant]/scene:opacity-0 max-md:hidden motion-reduce:opacity-100!">
                 {scene.beats.turn.title} {scene.beats.turn.body}
