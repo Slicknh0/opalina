@@ -2,6 +2,7 @@ import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { MobileActionBar } from "@/components/layout/mobile-action-bar";
 import { Hero } from "@/components/sections/hero";
+import { Method } from "@/components/sections/method";
 import { Principle } from "@/components/sections/principle";
 import { ShadeGuide } from "@/components/sections/shade-guide";
 import { Treatments } from "@/components/sections/treatments";
@@ -22,8 +23,9 @@ export default function Home() {
         <Principle />
         <Treatments />
         <ShadeGuide />
+        <Method />
         <Container className="min-h-[150vh]">
-          {["metodo", "profissional", "contato"].map((id) => (
+          {["profissional", "contato"].map((id) => (
             <section key={id} id={id} className="py-24">
               <h2 className="font-display text-heading">{id}</h2>
             </section>
