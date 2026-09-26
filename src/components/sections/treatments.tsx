@@ -25,7 +25,7 @@ export function Treatments() {
         </div>
         <TreatmentIndex
           treatments={clinic.treatments}
-          bookingHref={bookingHref(clinic.whatsapp)}
+          bookingHref={bookingHref(clinic.whatsappLink)}
         />
       </Container>
     </section>

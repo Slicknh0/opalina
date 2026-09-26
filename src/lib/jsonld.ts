@@ -9,7 +9,7 @@ const real = (value: Maybe<string>) =>
 
 /** schema.org Dentist data built only from real values — placeholders are omitted. */
 export function buildDentistJsonLd(clinic: Clinic, siteUrl: string) {
-  const phone = real(clinic.phone);
+  const phone = real(clinic.phoneLink);
   const digits = phone ? normalizeBrPhone(phone) : null;
 
   const data: Record<string, unknown> = {

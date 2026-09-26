@@ -54,8 +54,9 @@ export function Footer() {
             seu contato, conforme a LGPD.
           </p>
           <p>
-            Demonstração de portfólio. Opalina é uma clínica fictícia: dados de
-            contato, profissional e avaliações são espaços reservados.
+            Demonstração de portfólio. Opalina é uma clínica fictícia: endereço,
+            contatos, profissional, CRO e depoimento são dados fictícios, e os
+            botões de contato não fazem ligações nem abrem conversas.
           </p>
         </div>
       </Container>

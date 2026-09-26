@@ -24,22 +24,24 @@ export function Reviews() {
             <PlaceholderText value={review.author} />
           </figcaption>
         </figure>
-        <p className="mt-10 text-[0.9375rem]">
-          {isPlaceholder(review.sourceUrl) ? (
-            <PlaceholderText value={review.sourceUrl} />
-          ) : (
-            externalHref(review.sourceUrl) && (
-              <a
-                href={externalHref(review.sourceUrl) ?? undefined}
-                className="underline underline-offset-4"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Ver todas as avaliações no Google
-              </a>
-            )
-          )}
-        </p>
+        {review.sourceUrl !== null && (
+          <p className="mt-10 text-[0.9375rem]">
+            {isPlaceholder(review.sourceUrl) ? (
+              <PlaceholderText value={review.sourceUrl} />
+            ) : (
+              externalHref(review.sourceUrl) && (
+                <a
+                  href={externalHref(review.sourceUrl) ?? undefined}
+                  className="underline underline-offset-4"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Ver todas as avaliações no Google
+                </a>
+              )
+            )}
+          </p>
+        )}
       </Container>
     </section>
   );

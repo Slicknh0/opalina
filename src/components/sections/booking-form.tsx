@@ -66,7 +66,7 @@ export function BookingForm() {
     const label =
       options.find((o) => o.id === result.data.treatment)?.label ?? "";
     const target = resolveBookingTarget(
-      clinic.whatsapp,
+      clinic.whatsappLink,
       composeBookingMessage(result.data, label),
     );
     if (target.kind === "not-configured") {

@@ -32,7 +32,7 @@ export function Method() {
         <div className="lg:col-span-6 lg:col-start-7">
           <MethodSteps steps={method.steps} />
           <div className="mt-16 lg:mt-8">
-            <ButtonLink href={bookingHref(clinic.whatsapp)}>
+            <ButtonLink href={bookingHref(clinic.whatsappLink)}>
               Começar pela avaliação
             </ButtonLink>
           </div>

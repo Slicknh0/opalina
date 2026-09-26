@@ -48,7 +48,7 @@ export function Header() {
 
         <div className="flex items-center gap-3">
           <ButtonLink
-            href={bookingHref(clinic.whatsapp)}
+            href={bookingHref(clinic.whatsappLink)}
             className="hidden min-h-11 px-5 sm:inline-flex"
           >
             Agendar avaliação

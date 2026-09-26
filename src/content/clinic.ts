@@ -3,10 +3,11 @@ import { type Maybe, placeholder } from "@/lib/placeholder";
 /**
  * Single source of truth for the page's copy and clinic data.
  *
- * Opalina is a fictional clinic (portfolio demo). Every fact a real clinic
- * would have to prove — contact data, professional, credentials, reviews,
- * prices — is a `placeholder()` and renders as one. Replace them with real,
- * verified data before publishing for a real client.
+ * Opalina is a fictional clinic (portfolio demo): the professional, contacts,
+ * address, testimonial and payment terms below are invented, and the footer
+ * says so. Links that would reach a real person (`whatsappLink`, `phoneLink`)
+ * stay `placeholder()` so the demo never dials or messages anyone. Before
+ * publishing for a real client, replace everything with verified data.
  */
 
 export type Treatment = {
@@ -104,13 +105,18 @@ export const clinic = {
   city: "São Paulo",
   state: "SP",
 
-  address: placeholder("Endereço completo") as Maybe<string>,
-  phone: placeholder("Telefone") as Maybe<string>,
-  /** E.164 digits (e.g. 5511900000000) once the real number is known. */
-  whatsapp: placeholder("WhatsApp") as Maybe<string>,
-  hours: placeholder("Horário de atendimento") as Maybe<string>,
-  mapsUrl: placeholder("Link do Google Maps") as Maybe<string>,
-  instagram: placeholder("Instagram") as Maybe<string>,
+  address: "Alameda das Porcelanas, 120, conjunto 42" as Maybe<string>,
+  hours:
+    "Segunda a sexta, das 9h às 19h; sábado, das 9h às 13h" as Maybe<string>,
+  mapsUrl:
+    "https://www.google.com/maps/search/?api=1&query=Jardins%2C+S%C3%A3o+Paulo" as Maybe<string>,
+  instagram: "@opalina.estudio.demo" as Maybe<string>,
+  /** Shown on the page. */
+  phone: "(11) 3000-0000" as Maybe<string>,
+  whatsapp: "(11) 90000-0000" as Maybe<string>,
+  /** Link targets: E.164 digits (e.g. 5511900000000) for a real clinic. */
+  phoneLink: placeholder("Telefone") as Maybe<string>,
+  whatsappLink: placeholder("WhatsApp") as Maybe<string>,
 
   hero: {
     lead: "Estúdio de odontologia estética nos Jardins, em São Paulo.",
@@ -177,27 +183,26 @@ export const clinic = {
   },
 
   doctor: {
-    name: placeholder("Nome da profissional") as Maybe<string>,
-    cro: placeholder("CRO-SP") as Maybe<string>,
-    bio: placeholder(
-      "Biografia real: formação, especialização e trajetória",
-    ) as Maybe<string>,
-    quote: placeholder(
-      "Frase da profissional sobre como trabalha",
-    ) as Maybe<string>,
+    name: "Dra. Lívia Marçal Arantes" as Maybe<string>,
+    /** Deliberately impossible number: this professional does not exist. */
+    cro: "CRO-SP 00000" as Maybe<string>,
+    bio: "Cirurgiã-dentista dedicada à odontologia estética e restauradora, com foco em lentes, facetas e planejamento digital do sorriso. Acredita que o melhor tratamento é aquele que ninguém percebe como tratamento." as Maybe<string>,
+    quote:
+      "Um sorriso bonito é o que continua parecendo seu, só que mais leve." as Maybe<string>,
   },
 
   responsible: {
-    name: placeholder("Responsável técnico") as Maybe<string>,
-    cro: placeholder("CRO-SP do responsável técnico") as Maybe<string>,
+    name: "Dra. Lívia Marçal Arantes" as Maybe<string>,
+    cro: "CRO-SP 00000" as Maybe<string>,
   },
 
   review: {
-    quote: placeholder(
-      "Avaliação real do Google, publicada com autorização",
-    ) as Maybe<string>,
-    author: placeholder("Nome do paciente") as Maybe<string>,
-    sourceUrl: placeholder("Link do perfil no Google") as Maybe<string>,
+    quote:
+      "Eu tinha medo de ficar com dentes artificiais. O resultado ficou tão natural que as pessoas só comentam que pareço descansada." as Maybe<string>,
+    author:
+      "Carolina M., paciente de lentes (depoimento fictício)" as Maybe<string>,
+    /** A real clinic links its Google profile here; the demo has none. */
+    sourceUrl: null as Maybe<string> | null,
   },
 
   bookingOptions: [
@@ -238,7 +243,8 @@ export const clinic = {
     },
     {
       question: "Vocês atendem convênio? Quais as formas de pagamento?",
-      answer: placeholder("Convênios aceitos e formas de pagamento"),
+      answer:
+        "O atendimento é particular, com recibo para reembolso nos convênios odontológicos. Os pagamentos podem ser parcelados no cartão, e há condição especial à vista.",
     },
   ] satisfies FaqItem[],
 } as const;

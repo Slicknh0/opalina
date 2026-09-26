@@ -55,7 +55,7 @@ export function ToothScene() {
               {hero.lead} {hero.body}
             </p>
             <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6 md:mt-10 [@media(max-height:700px)]:mt-4 [@media(min-width:768px)_and_(max-height:820px)]:mt-7">
-              <ButtonLink href={bookingHref(clinic.whatsapp)}>
+              <ButtonLink href={bookingHref(clinic.whatsappLink)}>
                 Agendar avaliação
               </ButtonLink>
               <ButtonLink
@@ -91,7 +91,10 @@ export function ToothScene() {
             <p className="mt-5 max-w-[46ch] text-supporting text-foreground/80">
               {scene.beats.implant.body}
             </p>
-            <ButtonLink href={bookingHref(clinic.whatsapp)} className="mt-8">
+            <ButtonLink
+              href={bookingHref(clinic.whatsappLink)}
+              className="mt-8"
+            >
               Agendar avaliação
             </ButtonLink>
           </div>

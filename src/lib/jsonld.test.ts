@@ -19,15 +19,14 @@ describe("buildDentistJsonLd", () => {
   it("omits every field that is still a placeholder", () => {
     const data = buildDentistJsonLd(clinic, "https://opalina.example");
     expect(data).not.toHaveProperty("telephone");
-    expect(data.address).not.toHaveProperty("streetAddress");
     const all = JSON.stringify(data);
     expect(all).not.toContain('"kind":"placeholder"');
-    expect(isPlaceholder(clinic.phone)).toBe(true);
+    expect(isPlaceholder(clinic.phoneLink)).toBe(true);
   });
 
   it("includes real values once provided", () => {
     const data = buildDentistJsonLd(
-      { ...clinic, phone: "(11) 3456-7890", address: "Rua Exemplo, 100" },
+      { ...clinic, phoneLink: "(11) 3456-7890", address: "Rua Exemplo, 100" },
       "https://opalina.example",
     );
     expect(data.telephone).toBe("+551134567890");

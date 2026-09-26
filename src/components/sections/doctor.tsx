@@ -3,7 +3,14 @@ import { Container } from "@/components/ui/container";
 import { PlaceholderText } from "@/components/ui/placeholder-text";
 import { TextureFrame } from "@/components/ui/texture-frame";
 import { clinic } from "@/content/clinic";
-import { placeholder } from "@/lib/placeholder";
+import { isPlaceholder, type Maybe } from "@/lib/placeholder";
+
+/** "Dra. Lívia Marçal Arantes" → "LA": first and last name, titles skipped. */
+function initials(name: Maybe<string>): string {
+  if (isPlaceholder(name)) return "";
+  const words = name.split(" ").filter((w) => !/^(dr|dra).?$/i.test(w));
+  return `${words[0]?.[0] ?? ""}${words.at(-1)?.[0] ?? ""}`;
+}
 
 export function Doctor() {
   const { doctor } = clinic;
@@ -16,10 +23,12 @@ export function Doctor() {
       <Container className="grid gap-12 lg:grid-cols-12 lg:gap-8">
         <TextureFrame className="aspect-[4/5] w-full max-w-md lg:col-span-5 lg:max-w-none">
           <StaticGlow />
-          <p className="absolute inset-x-0 bottom-6 flex justify-center">
-            <PlaceholderText
-              value={placeholder("Retrato editorial da profissional")}
-            />
+          {/* Typographic portrait: the professional is fictional, so no face. */}
+          <p
+            aria-hidden="true"
+            className="absolute inset-0 flex items-center justify-center font-display-italic text-[clamp(6rem,18vw,12rem)] font-light italic leading-none tracking-[-0.04em] text-foreground/15"
+          >
+            {initials(doctor.name)}
           </p>
         </TextureFrame>
 

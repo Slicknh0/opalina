@@ -99,12 +99,17 @@ test.describe("landing page", () => {
     await expect(form.locator("output")).toContainText("Revise");
   });
 
-  test("keeps demo data visibly marked as placeholders", async ({ page }) => {
+  test("shows fictional data under a clear demo disclaimer", async ({
+    page,
+  }) => {
     await expect(page.locator("footer")).toContainText(
       "Opalina é uma clínica fictícia",
     );
-    const count = await page.locator("[data-placeholder]").count();
-    expect(count).toBeGreaterThan(5);
+    await expect(page.locator("[data-placeholder]")).toHaveCount(0);
+    await expect(page.locator("#contato")).toContainText("(11) 90000-0000");
+    await expect(page.locator("a[href^='tel:'], a[href*='wa.me']")).toHaveCount(
+      0,
+    );
   });
 });
 

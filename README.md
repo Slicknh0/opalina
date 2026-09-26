@@ -1,9 +1,10 @@
 # Opalina — landing page premium para odontologia estética
 
 Demonstração de portfólio (pacote **Avançado / Premium**) de uma landing page para
-uma clínica de odontologia estética. **Opalina é uma clínica fictícia**: todo dado
-que uma clínica real precisaria comprovar aparece como espaço reservado visível,
-nunca como fato.
+uma clínica de odontologia estética. **Opalina é uma clínica fictícia**: endereço,
+contatos, profissional, CRO e depoimento são dados fictícios, identificados como
+tal no rodapé. Os botões de contato ficam em modo demo (sem `tel:` nem `wa.me`), e
+a página não exibe estatísticas nem avaliações numéricas inventadas.
 
 Conceito: **"Luz através do esmalte"** — superfícies de porcelana, reflexos
 perolados e precisão silenciosa. Assinaturas visuais:

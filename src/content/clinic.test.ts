@@ -28,25 +28,42 @@ describe("clinic content", () => {
     expect(clinic.faq.length).toBeGreaterThanOrEqual(5);
   });
 
-  it("keeps verifiable facts as placeholders", () => {
+  it("fills every visible field with (fictional) text", () => {
     for (const value of [
       clinic.address,
       clinic.phone,
       clinic.whatsapp,
       clinic.hours,
+      clinic.instagram,
       clinic.doctor.name,
       clinic.doctor.cro,
+      clinic.doctor.bio,
+      clinic.doctor.quote,
+      clinic.responsible.name,
       clinic.responsible.cro,
       clinic.review.quote,
+      clinic.review.author,
     ]) {
-      expect(isPlaceholder(value)).toBe(true);
+      expect(typeof value).toBe("string");
     }
+  });
+
+  it("keeps contact links in demo mode so no real person is dialled", () => {
+    expect(isPlaceholder(clinic.whatsappLink)).toBe(true);
+    expect(isPlaceholder(clinic.phoneLink)).toBe(true);
+  });
+
+  it("labels the testimonial as fictional", () => {
+    expect(clinic.review.author).toMatch(/fictíci/);
   });
 
   it("contains no fabricated statistics", () => {
     const fabricated =
       /\d+\s*(anos|pacientes|sorrisos|tratamentos realizados|%)|\d(,\d)?\s*estrelas/i;
-    for (const text of collectStrings(clinic)) {
+    // Prose only: URLs contain percent-encoding such as "%C3%A3".
+    for (const text of collectStrings(clinic).filter(
+      (t) => !t.startsWith("http"),
+    )) {
       expect(text).not.toMatch(fabricated);
     }
   });

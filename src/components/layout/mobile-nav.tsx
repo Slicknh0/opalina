@@ -109,7 +109,7 @@ export function MobileNav() {
               </ul>
             </nav>
             <ButtonLink
-              href={bookingHref(clinic.whatsapp)}
+              href={bookingHref(clinic.whatsappLink)}
               onClick={followLink}
               className="mt-auto w-full"
             >
