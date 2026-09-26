@@ -51,19 +51,22 @@ export function FrameCanvas({ progress, active, className }: FrameCanvasProps) {
     };
   }, []);
 
-  const draw = useCallback(() => {
+  /** Draws the frame for the current progress; false when nothing is drawable. */
+  const draw = useCallback((): boolean => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas) return false;
     const target = frameForProgress(progress.get(), set.count);
     const index = pickDrawableFrame(target, loaded);
-    if (index === null || index === drawn.current) return;
+    if (index === null) return false;
+    if (index === drawn.current) return true;
     const bitmap = getBitmap(index);
     const ctx = canvas.getContext("2d");
-    if (!bitmap || !ctx) return;
+    if (!bitmap || !ctx) return false;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
     drawn.current = index;
     setVisible(true);
+    return true;
   }, [progress, set, loaded, getBitmap]);
 
   // Keep the backing store matched to the rendered size and pixel ratio.
@@ -74,8 +77,9 @@ export function FrameCanvas({ progress, active, className }: FrameCanvasProps) {
       const ratio = Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = Math.round(canvas.clientWidth * ratio);
       canvas.height = Math.round(canvas.clientHeight * ratio);
+      // Resizing clears the canvas: if nothing can be redrawn, show the poster.
       drawn.current = null;
-      draw();
+      if (!draw()) setVisible(false);
     });
     observer.observe(canvas);
     return () => observer.disconnect();
@@ -94,6 +98,8 @@ export function FrameCanvas({ progress, active, className }: FrameCanvasProps) {
   return (
     <div
       aria-hidden="true"
+      // The stage hides the poster while a frame is drawn (no double exposure).
+      data-drawn={visible}
       className={cn(
         "absolute inset-0 transition-opacity duration-(--duration-ui)",
         visible ? "opacity-100" : "opacity-0",

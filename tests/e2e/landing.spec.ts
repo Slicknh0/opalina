@@ -359,3 +359,123 @@ test.describe("tooth scene", () => {
     await expect(focused).toBeInViewport();
   });
 });
+
+test.describe("tooth scene interaction", () => {
+  async function scrollScene(
+    page: import("@playwright/test").Page,
+    progress: number,
+  ) {
+    await page.evaluate((p) => {
+      const track = document.querySelector("#inicio > div") as HTMLElement;
+      const range = track.offsetHeight - window.innerHeight;
+      window.scrollTo({
+        top: track.offsetTop + range * p,
+        behavior: "instant",
+      });
+    }, progress);
+    await page.waitForTimeout(900);
+  }
+
+  /** Clicks with the real pointer at the element's centre (hit-testing included). */
+  async function pointerClick(
+    page: import("@playwright/test").Page,
+    locator: import("@playwright/test").Locator,
+  ) {
+    const box = await locator.boundingBox();
+    if (!box) throw new Error("no box");
+    await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
+  }
+
+  test("hero CTAs respond to a real pointer click", async ({ page }) => {
+    await page.goto("/");
+    await page.waitForLoadState("networkidle");
+    await pointerClick(
+      page,
+      page.getByRole("link", { name: "Conhecer os tratamentos" }),
+    );
+    await expect(page).toHaveURL(/#tratamentos$/);
+  });
+
+  test("the implant beat CTA responds to a real pointer click", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    await page.waitForLoadState("networkidle");
+    await scrollScene(page, 0.9);
+    const block = page
+      .getByRole("heading", {
+        name: "Quando falta um dente, devolvemos forma e função.",
+      })
+      .locator("xpath=..");
+    await pointerClick(
+      page,
+      block.getByRole("link", { name: "Agendar avaliação" }),
+    );
+    await expect(page).toHaveURL(/#contato$/);
+  });
+
+  test("the poster hides once turn frames are drawn (no double exposure)", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    await page.waitForLoadState("networkidle");
+    await page.mouse.move(300, 300);
+    await page.mouse.move(320, 320);
+    await scrollScene(page, 0.2);
+    await expect(
+      page.locator("#inicio canvas[data-scene-frames]").locator(".."),
+    ).toHaveCSS("opacity", "1", { timeout: 10_000 });
+    await expect(page.locator('#inicio img[src*="/tooth/k1-"]')).toHaveCSS(
+      "opacity",
+      "0",
+    );
+  });
+
+  test("keyboard focus never lands on an invisible scene link", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    await page.waitForLoadState("networkidle");
+    const hidden: string[] = [];
+    for (let i = 0; i < 25; i++) {
+      await page.keyboard.press("Tab");
+      const problem = await page.evaluate(() => {
+        const el = document.activeElement as HTMLElement | null;
+        if (!el?.closest("#inicio")) return null;
+        let opacity = 1;
+        for (
+          let n: HTMLElement | null = el;
+          n && n.id !== "inicio";
+          n = n.parentElement
+        ) {
+          const cs = getComputedStyle(n);
+          if (cs.visibility === "hidden")
+            return `${el.textContent?.trim()} (visibility hidden)`;
+          opacity *= Number(cs.opacity);
+        }
+        return opacity < 0.5
+          ? `${el.textContent?.trim()} (opacity ${opacity})`
+          : null;
+      });
+      if (problem) hidden.push(problem);
+    }
+    expect(hidden).toEqual([]);
+  });
+});
+
+test.describe("tooth scene with reduced motion", () => {
+  test("stacked hero CTAs respond to a real pointer click", async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/");
+    await page.waitForLoadState("networkidle");
+    const link = page.getByRole("link", { name: "Conhecer os tratamentos" });
+    await link.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(300);
+    const box = await link.boundingBox();
+    if (!box) throw new Error("no box");
+    await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
+    await expect(page).toHaveURL(/#tratamentos$/);
+  });
+});

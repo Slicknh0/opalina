@@ -13,9 +13,11 @@ import {
 } from "./scene-context";
 import { SceneStill } from "./scene-still";
 
-// Copy blocks share one grid cell; the active beat's block is shown.
+// Copy blocks share one grid cell; only the active beat's block is shown.
+// Inactive blocks are visibility:hidden (not just transparent) so they never
+// catch clicks, keyboard focus or screen-reader focus over the active one.
 const beatBlock =
-  "col-start-1 row-start-1 transition-opacity duration-(--duration-reveal) ease-soft motion-reduce:col-auto motion-reduce:row-auto motion-reduce:opacity-100!";
+  "col-start-1 row-start-1 transition-[opacity,visibility] duration-(--duration-reveal) ease-soft motion-reduce:col-auto motion-reduce:row-auto motion-reduce:visible! motion-reduce:opacity-100!";
 
 /**
  * The hero: a pinned, scroll-driven story of a glass molar. It turns (frame
@@ -41,7 +43,7 @@ export function ToothScene() {
         {/* Copy: intro during the turn, then each beat takes its place. */}
         <div className="order-2 grid md:order-1 md:col-span-6 motion-reduce:gap-16">
           <div
-            className={`${beatBlock} group-data-[beat=layers]/scene:pointer-events-none group-data-[beat=implant]/scene:pointer-events-none group-data-[beat=layers]/scene:opacity-0 group-data-[beat=implant]/scene:opacity-0`}
+            className={`${beatBlock} group-data-[beat=layers]/scene:invisible group-data-[beat=implant]/scene:invisible group-data-[beat=layers]/scene:opacity-0 group-data-[beat=implant]/scene:opacity-0`}
           >
             <HeroTitle
               id="hero-title"
@@ -70,7 +72,7 @@ export function ToothScene() {
           </div>
 
           <div
-            className={`${beatBlock} opacity-0 group-data-[beat=layers]/scene:opacity-100`}
+            className={`${beatBlock} invisible opacity-0 group-data-[beat=layers]/scene:visible group-data-[beat=layers]/scene:opacity-100`}
           >
             <h2 className="text-balance font-display text-heading font-light">
               {scene.beats.layers.title}
@@ -81,7 +83,7 @@ export function ToothScene() {
           </div>
 
           <div
-            className={`${beatBlock} pointer-events-none opacity-0 group-data-[beat=implant]/scene:pointer-events-auto group-data-[beat=implant]/scene:opacity-100`}
+            className={`${beatBlock} invisible opacity-0 group-data-[beat=implant]/scene:visible group-data-[beat=implant]/scene:opacity-100`}
           >
             <h2 className="text-balance font-display text-heading font-light">
               {scene.beats.implant.title}
@@ -99,7 +101,7 @@ export function ToothScene() {
         <div className="order-1 md:order-2 md:col-span-6">
           <div className="relative mx-auto aspect-square w-[min(80vw,40svh)] [@media(max-height:700px)]:w-[min(60vw,26svh)] md:w-full md:max-w-[36rem] [@media(min-width:768px)_and_(max-height:820px)]:md:max-w-[min(36rem,70svh)] motion-reduce:aspect-auto motion-reduce:w-full">
             {/* Images fade out at the edges so the tooth floats on the page. */}
-            <div className="absolute inset-0 [mask-image:radial-gradient(closest-side,#000_78%,transparent)] motion-reduce:relative motion-reduce:flex motion-reduce:flex-col motion-reduce:gap-10 motion-reduce:[mask-image:none]">
+            <div className="group/stage absolute inset-0 [mask-image:radial-gradient(closest-side,#000_78%,transparent)] motion-reduce:relative motion-reduce:flex motion-reduce:flex-col motion-reduce:gap-10 motion-reduce:[mask-image:none]">
               <div className="absolute inset-[10%] overflow-hidden rounded-full opacity-70 blur-2xl motion-reduce:hidden">
                 <ShaderSlot variant="hero" />
               </div>
@@ -107,7 +109,7 @@ export function ToothScene() {
                 name="k1"
                 alt={scene.alts.k1}
                 priority
-                className="absolute inset-0 motion-reduce:relative"
+                className="absolute inset-0 transition-opacity duration-(--duration-ui) group-has-[[data-drawn=true]]/stage:opacity-0 motion-reduce:relative"
               />
               <SceneFrames className="mix-blend-multiply motion-reduce:hidden" />
               <WipeLayer
