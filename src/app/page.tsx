@@ -1,12 +1,11 @@
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { MobileActionBar } from "@/components/layout/mobile-action-bar";
+import { ToothScene } from "@/components/scene/tooth-scene";
 import { Contact } from "@/components/sections/contact";
 import { Doctor } from "@/components/sections/doctor";
 import { Faq } from "@/components/sections/faq";
-import { Hero } from "@/components/sections/hero";
 import { Method } from "@/components/sections/method";
-import { Principle } from "@/components/sections/principle";
 import { Reviews } from "@/components/sections/reviews";
 import { ShadeGuide } from "@/components/sections/shade-guide";
 import { Treatments } from "@/components/sections/treatments";
@@ -25,15 +24,31 @@ export default function Home() {
       </a>
       <Header />
       <main id="conteudo">
-        <Hero />
-        <Principle />
-        <Treatments />
-        <ShadeGuide />
-        <Method />
-        <Doctor />
-        <Reviews />
-        <Faq />
-        <Contact />
+        <ToothScene />
+        {/* Below the fold: each section skips layout and paint until it nears
+            the viewport; the intrinsic sizes are first guesses the browser
+            replaces with the real height once rendered. */}
+        <div className="[contain-intrinsic-size:auto_1300px] [content-visibility:auto]">
+          <Treatments />
+        </div>
+        <div className="[contain-intrinsic-size:auto_900px] [content-visibility:auto]">
+          <ShadeGuide />
+        </div>
+        <div className="[contain-intrinsic-size:auto_1800px] [content-visibility:auto]">
+          <Method />
+        </div>
+        <div className="[contain-intrinsic-size:auto_900px] [content-visibility:auto]">
+          <Doctor />
+        </div>
+        <div className="[contain-intrinsic-size:auto_600px] [content-visibility:auto]">
+          <Reviews />
+        </div>
+        <div className="[contain-intrinsic-size:auto_900px] [content-visibility:auto]">
+          <Faq />
+        </div>
+        <div className="[contain-intrinsic-size:auto_1400px] [content-visibility:auto]">
+          <Contact />
+        </div>
       </main>
       <Footer />
       <MobileActionBar />

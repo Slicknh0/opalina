@@ -2,7 +2,8 @@
 
 import { motion, useInView, useReducedMotion } from "motion/react";
 import dynamic from "next/dynamic";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
+import { useFirstInteraction } from "@/hooks/use-first-interaction";
 import { useWebGL } from "@/hooks/use-webgl";
 import { cn } from "@/lib/cn";
 import { DURATION, EASE_SOFT } from "@/lib/motion";
@@ -46,26 +47,4 @@ export function ShaderSlot({ variant, className }: ShaderSlotProps) {
       )}
     </div>
   );
-}
-
-const INTERACTIONS = [
-  "pointermove",
-  "pointerdown",
-  "keydown",
-  "scroll",
-  "touchstart",
-];
-
-function useFirstInteraction() {
-  const [armed, setArmed] = useState(false);
-  useEffect(() => {
-    const arm = () => setArmed(true);
-    for (const type of INTERACTIONS) {
-      window.addEventListener(type, arm, { once: true, passive: true });
-    }
-    return () => {
-      for (const type of INTERACTIONS) window.removeEventListener(type, arm);
-    };
-  }, []);
-  return armed;
 }

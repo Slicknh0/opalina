@@ -11,7 +11,9 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "e2e": "playwright test",
-    "check": "biome check ."
+    "check": "biome check .",
+    "assets:generate": "node scripts/agnes/generate.ts",
+    "assets:process": "node scripts/agnes/process.ts"
   },
   "dependencies": {
     "@react-three/fiber": "^9.8.0",

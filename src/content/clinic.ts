@@ -14,6 +14,8 @@ export type Treatment = {
   name: string;
   summary: string;
   indication: string;
+  /** Agnes render: base path without the "-<width>.webp" suffix. */
+  render: { src: string; alt: string };
 };
 
 export type FaqItem = { question: string; answer: Maybe<string> };
@@ -28,6 +30,10 @@ const treatments: Treatment[] = [
       "Lâminas finas de cerâmica aplicadas na frente dos dentes para ajustar cor, forma e proporção. Em muitos casos pedem pouco ou nenhum desgaste — isso é definido na avaliação.",
     indication:
       "Pequenas alterações de forma, espaços entre os dentes e manchas que não respondem ao clareamento.",
+    render: {
+      src: "/treatments/lentes",
+      alt: "Ilustração 3D de um dente de vidro fosco com acabamento de porcelana perolada.",
+    },
   },
   {
     id: "facetas",
@@ -36,6 +42,10 @@ const treatments: Treatment[] = [
       "Mais espessas que as lentes, corrigem alterações maiores de cor, formato e alinhamento, com a translucidez natural da cerâmica.",
     indication:
       "Dentes muito escurecidos, desgastados ou com restaurações antigas aparentes.",
+    render: {
+      src: "/treatments/facetas",
+      alt: "Ilustração 3D de um dente com uma faceta de porcelana levemente destacada na borda.",
+    },
   },
   {
     id: "clareamento",
@@ -44,6 +54,10 @@ const treatments: Treatment[] = [
       "Clareamento supervisionado, no consultório ou em casa com moldeiras sob medida, planejado para chegar a um tom que combine com você.",
     indication:
       "Dentes saudáveis que escureceram com o tempo, café, vinho ou tabaco.",
+    render: {
+      src: "/treatments/clareamento",
+      alt: "Ilustração 3D de três dentes lado a lado, do tom marfim ao branco natural.",
+    },
   },
   {
     id: "alinhadores",
@@ -52,6 +66,10 @@ const treatments: Treatment[] = [
       "Placas removíveis e discretas que movimentam os dentes aos poucos, com cada etapa simulada no planejamento digital.",
     indication:
       "Dentes desalinhados, apinhados ou com pequenos espaços, em adultos e adolescentes.",
+    render: {
+      src: "/treatments/alinhadores",
+      alt: "Ilustração 3D de um alinhador transparente sobre uma fileira de dentes de vidro.",
+    },
   },
   {
     id: "gengiva",
@@ -60,6 +78,10 @@ const treatments: Treatment[] = [
       "Ajuste delicado da linha da gengiva para equilibrar a proporção entre dentes, lábios e sorriso.",
     indication:
       "Sorriso gengival, dentes que parecem curtos ou gengiva com contorno irregular.",
+    render: {
+      src: "/treatments/gengiva",
+      alt: "Ilustração 3D de dois incisivos em uma gengiva esculpida em rosa suave, com contorno uniforme.",
+    },
   },
   {
     id: "reabilitacao",
@@ -68,6 +90,10 @@ const treatments: Treatment[] = [
       "Um plano combinado para devolver função e estética, com restaurações, coroas ou implantes quando indicados.",
     indication:
       "Perdas dentárias, desgastes extensos ou vários tratamentos antigos a refazer.",
+    render: {
+      src: "/tooth/implant",
+      alt: "Ilustração 3D de um implante dentário: coroa de porcelana, pilar e parafuso.",
+    },
   },
 ];
 
@@ -94,12 +120,29 @@ export const clinic = {
       "Cada sorriso é planejado individualmente, do estudo de cor ao ensaio digital.",
   },
 
-  principle: {
-    statement: "Naturalidade antes de brancura.",
-    paragraphs: [
-      "Um dente bonito não é o mais branco. É o que tem a translucidez certa na borda, a textura que reflete a luz e a proporção que conversa com o rosto.",
-      "Por isso o planejamento começa pela observação: como você sorri, fala e se vê. Só depois escolhemos material, cor e forma.",
-    ],
+  scene: {
+    beats: {
+      turn: {
+        title: "A luz atravessa o esmalte.",
+        body: "Um dente natural não é branco opaco: a borda é translúcida e a luz entra, reflete e volta com profundidade.",
+      },
+      layers: {
+        title: "Naturalidade antes de brancura.",
+        body: "Esmalte, dentina e polpa mudam a forma como cada dente reflete a luz. Por isso o planejamento começa pela observação, não pelo tom mais claro da escala.",
+        labels: { enamel: "Esmalte", dentine: "Dentina", pulp: "Polpa" },
+      },
+      implant: {
+        title: "Quando falta um dente, devolvemos forma e função.",
+        body: "Coroas e implantes planejados para se integrar ao sorriso, com a mesma atenção à cor e à translucidez.",
+      },
+    },
+    alts: {
+      k1: "Ilustração 3D de um molar com coroa de porcelana perolada e raízes de vidro fosco.",
+      cutaway:
+        "Ilustração 3D do mesmo molar cortado ao meio, mostrando esmalte, dentina e polpa.",
+      implant:
+        "Ilustração 3D de um implante dentário: coroa de porcelana, pilar e parafuso.",
+    },
   },
 
   treatments,
